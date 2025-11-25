@@ -17,6 +17,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "googleapis": "^164.1.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "sanitize-html": "^2.17.0"
   }
 }

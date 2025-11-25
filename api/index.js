@@ -4,6 +4,7 @@ const AWS = require('aws-sdk');
 const { getYouTubeComments, calculateNetScore, extractKeywords } = require('../utils/helper.js');
 const data = require('../seeders/data');
 const CONSTANTS = require('../utils/constants.js')
+const sanitizeHtml = require("sanitize-html");
 
 router.post('/analyze-sentiment', async (req, res) => {
     // const { text } = req.body;
@@ -53,8 +54,11 @@ router.post('/batch-analyze-sentiment', async (req, res) => {
         let allResults = [];
         const batches = []
         const BATCH_SIZE = 25;
-        for (let i = 0; i < comments.length; i += BATCH_SIZE) {
-            batches.push(comments.slice(i, i + BATCH_SIZE))
+        const cleanedComments = comments.map(c =>
+            sanitizeHtml(c, { allowedTags: [], allowedAttributes: {} })
+        );
+        for (let i = 0; i < cleanedComments.length; i += BATCH_SIZE) {
+            batches.push(cleanedComments.slice(i, i + BATCH_SIZE))
         }
 
         const batchPromises = batches.map(batch => {
@@ -111,7 +115,7 @@ router.post('/batch-analyze-sentiment', async (req, res) => {
         allResults.forEach((comment, index) => {
             if (sentimentCounts.hasOwnProperty(comment.Sentiment)) {
                 sentimentCounts[comment.Sentiment].value++;
-                sentimentCounts[comment.Sentiment].comments.push(comments[index]);
+                sentimentCounts[comment.Sentiment].comments.push(cleanedComments[index]);
             }
         })
 
@@ -134,7 +138,7 @@ router.post('/batch-analyze-sentiment', async (req, res) => {
             },
         ]
         const maxSentiment = Object.keys(sentimentCounts).reduce((max, key) =>
-            sentimentCounts[key] > sentimentCounts[max] ? key : max);
+            sentimentCounts[key].value > sentimentCounts[max].value ? key : max);
 
         const totalCounts = allResults.length
         const overallScore = calculateNetScore(sentimentCounts, totalCounts)
@@ -152,6 +156,7 @@ router.post('/batch-analyze-sentiment', async (req, res) => {
         finalResponse.overallScore = overallScore
         finalResponse.comments = pickedComments
         finalResponse.keywords = pickedKeywords
+        finalResponse.totalCount=allResults.length
         res.json({ results: finalResponse });
     } catch (error) {
         console.log(error)
