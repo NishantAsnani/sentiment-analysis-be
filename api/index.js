@@ -46,7 +46,7 @@ router.post('/batch-analyze-sentiment', async (req, res) => {
     const videoId = url.split('v=')[1];
 
     try {
-        const commaents = await getYouTubeComments(videoId);
+        const comments = await getYouTubeComments(videoId);
         let finalResponse = {};
         const comprehend = new AWS.Comprehend({ region: process.env.AWS_REGION });
 
