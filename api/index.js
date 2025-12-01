@@ -41,22 +41,21 @@ router.post('/analyze-sentiment', async (req, res) => {
 });
 
 router.post('/batch-analyze-sentiment', async (req, res) => {
-    // const { text } = req.body;
 
     const { url } = req.body;
     const videoId = url.split('v=')[1];
 
     try {
-        const comments = await getYouTubeComments(videoId);
+        const commaents = await getYouTubeComments(videoId);
         let finalResponse = {};
         const comprehend = new AWS.Comprehend({ region: process.env.AWS_REGION });
 
         let allResults = [];
-        const batches = []
+        const batches = [];
         const BATCH_SIZE = 25;
         const cleanedComments = comments.map(c =>
             sanitizeHtml(c, { allowedTags: [], allowedAttributes: {} })
-        );
+        ).map((c)=>c.trim()).filter((c)=>c.length>0).filter((c)=>Buffer.byteLength(c, 'utf8') <= 4500);
         for (let i = 0; i < cleanedComments.length; i += BATCH_SIZE) {
             batches.push(cleanedComments.slice(i, i + BATCH_SIZE))
         }

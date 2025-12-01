@@ -3,7 +3,7 @@ const {google} = require('googleapis');
 const youtube = google.youtube('v3');
 const CONSTANTS=require('./constants');
 
-async function getYouTubeComments(videoId,commentLimit=100) {
+async function getYouTubeComments(videoId,commentLimit=1000) {
 
     let nextToken=null;
     let comments=[];
@@ -12,8 +12,7 @@ do{
     const response = await youtube.commentThreads.list({
     part: 'snippet',
     videoId,
-    maxResults:commentLimit,
-    order:'relevance',
+    order:'time',
     key:process.env.GOOGLE_AUTH_KEY,
     pageToken:nextToken
   });
