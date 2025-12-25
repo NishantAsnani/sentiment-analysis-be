@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "b3edd406-7cca-4c26-b9a4-c676a61bbe8e",
+		"name": "Sentiment Analysis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18261591"
+	},
+	"item": [
+		{
+			"name": "Analyze-Sentiment",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}/analyze-sentiment",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"analyze-sentiment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Analyze-Sentiment Batch",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"url\":\"https://www.youtube.com/watch?v=<VIDEO_ID>\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}/batch-analyze-sentiment",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"batch-analyze-sentiment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getYoutubeComments",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"nishant\",\r\n    \"password\":\"hapazard1234\"\r\n}"
+				},
+				"url": {
+					"raw": "{{local}}/youtube-comments?url=https://www.youtube.com/watch?v=<VIDEO_ID>",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"youtube-comments"
+					],
+					"query": [
+						{
+							"key": "url",
+							"value": "https://www.youtube.com/watch?v=<VIDEO_ID>"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "local",
+			"value": ""
+		}
+	]
+}

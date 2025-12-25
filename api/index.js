@@ -8,14 +8,6 @@ const sanitizeHtml = require("sanitize-html");
 
 router.post('/analyze-sentiment', async (req, res) => {
     // const { text } = req.body;
-    const { url } = req.body;
-    const videoId = url.split('v=')[1];
-    const comments = await getYouTubeComments(videoId);
-
-
-
-
-
     const comprehend = new AWS.Comprehend({ region: 'us-east-1' });
     const LanguageObject = await comprehend.detectDominantLanguage({ Text: data[0] }).promise();
 
