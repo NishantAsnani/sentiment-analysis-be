@@ -39,7 +39,7 @@ A small Express.js backend that fetches YouTube comments and analyzes sentiment 
 1. Clone the repo and install:
 ```bash
 git clone <repo-url>
-cd BE
+cd sentiment-analysis-be
 npm install
 ```
 
